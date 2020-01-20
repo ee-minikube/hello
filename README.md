@@ -14,13 +14,23 @@ https://docs.docker.com/docker-for-mac/install/
 
 Make sure you have brew installed on your Mac
 
-Install Minikube using brew
+Install Minikube using brew and add extensions
+
+brew install minikube
+
+minikube start
+minikube addons enable ingress
 
 Install git using brew
 
+brew install git
+
 Clone this repo
 
-Build the Golang helloworld app in debian stretch docker and deploy to latest alpine. 
+git clone 
+
+ 
+Heres the golang:
 
 ```bash
 package main
@@ -58,9 +68,10 @@ func main() {
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
 
 }
-```bash
+```
+Here's the dockerfile:
 
-Dockerfile is
+Dockerfile
 
 ```bash
 FROM golang:1.13.6-stretch as builder
@@ -86,13 +97,46 @@ RUN apk add --no-cache ca-certificates
 WORKDIR /root
 # copy the binary from builder
 COPY --from=builder /go/src/app/main .
-```bash
+```
 
+Build the Golang helloworld app in debian stretch docker and deploy to latest alpine - with a google gcr tag push  latest to gcr.
 
+Open a terminal in Mac and run the following:
 
 ```bash
 docker build  -t eu.gcr.io/guestbook-171610/helloworld .
 docker push eu.gcr.io/guestbook-171610/helloworld:latest
 docker images |grep helloworld
-```bash
+```
+
+Deploy helloworld to minikube
+
+In terminal run:
+
+minikube dashboard
+
+which launches http://127.0.0.1:65041/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/overview?namespace=default in a browser leave the terminal opened and open another one for use later.
+
+From the browser window that was opened click on the + in the top right.
+
+This will open a new resource window  - choose the create from form tab
+App Name helloworld
+Container Image: eu.gcr.io/guestbook-171610/helloworld:latest
+Number of Pods: 3
+Service: External
+Port: 8080 External Port: 8080 Protocol: TCP
+click on show Advanced Options
+
+Description: helloworld app
+
+Then click on Deploy
+
+This will deploy and then open the helloworld namespace overview display which should look as this:
+
+
+
+Namespace: Choose create a new namespace.
+Will launch a dialog give the namespace name helloworld
+
+minikube dashboard
 
