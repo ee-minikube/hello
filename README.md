@@ -1,5 +1,4 @@
-# hello
-build &amp; deploy golang helloworld example on minikube
+# Build a simple hello world Golang WebServer in a docker Container &amp; Deploy Golang helloworld image  on Minikube
 
 Go:
 
