@@ -18,7 +18,8 @@ https://brew.sh
 
 ### Install Minikube using brew and add extensions
 
-Open a terminal
+Open a terminal on the Mac.
+
 ```bash
 brew install minikube
 minikube start
@@ -29,14 +30,16 @@ minikube addons enable ingress
 ```bash
 brew install git
 ```
+
 ### Clone this repo
 
+```bash
 git clone https://github.com/ee-minikube/hello.git
-
+```
 
 ### Golang 
 
-See src/main
+See src/main this
 
 ```bash
 package main
