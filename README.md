@@ -139,6 +139,8 @@ which launches something like  http://127.0.0.1:65041/api/v1/namespaces/kubernet
 This will open a new resource window  - choose the create from form tab
 App Name helloworld
 
+![Create](/images/create.png)
+
 Container Image: eu.gcr.io/guestbook-171610/helloworld:latest
 
 Number of Pods: 3
