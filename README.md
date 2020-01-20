@@ -89,7 +89,7 @@ func main() {
 
 ### Dockerfile
 
-View the Dockerfile with your favourite editor Dockerfile. It builds the Golang helloworld app in debian stretch docker container and deploys to latest alpine - then pushes to local registry running on port 5000.
+View the Dockerfile with your favourite editor Dockerfile. It builds the Golang helloworld app in debian stretch docker container and deploys to latest alpine - then pushes to eu.gcr.io/guestbook-171610/helloworld:latest - note you will need to set up your own registry see below .
 
 ```bash
 FROM golang:1.13.6-stretch as builder
@@ -121,15 +121,15 @@ COPY --from=builder /go/src/app/main .
 
 ### Open a terminal in Mac and run the following from the hello directory:
 
-As above gcr has scanning on it and will show any vuneralbilities. Note you can also deploy to your own  docker hub registry. In both cases modify the localhost:5000 to corespond to your registry. I've left the gcr  below open  for the time being to enable testing of this deployment
+As above gcr has scanning on it and will show any vuneralbilities.  
 
 Here's a good blog on using GCP GCR https://www.techbeatly.com/2019/10/adding-container-images-to-google-container-registry-gcr.html/.
 
 Docker hub is detailed here.
 
 ```bash
-$ docker build  -t localhost:5000/helloworld .
-$ docker push      localhost:5000/helloworld:latest
+$ docker build  -t eu.gcr.io/guestbook-171610/helloworld:latest .
+$ docker push      eu.gcr.io/guestbook-171610/helloworld:latest
 $ docker images |grep helloworld
 ```
 
@@ -154,7 +154,7 @@ This will open a new resource window  - choose the create from form tab:
 
 App Name: helloworld
 
-Container Image: localhost:5000/helloworld:latest
+Container Image: eu.gcr.io/guestbook-171610/helloworld:latest
 
 Number of Pods: 3
 
@@ -211,7 +211,7 @@ spec:
     spec:
       containers:
         - name: helloworld
-          image: 'localhost:5000/helloworld:latest'
+          image: 'eu.gcr.io/guestbook-171610/helloworld:latest'
           resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
