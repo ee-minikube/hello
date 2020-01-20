@@ -1,4 +1,4 @@
-# Build a simple Hello World Golang WebServer in a Docker Container &amp; Deploy the Golang Hello World docker image  on Minikube. Load Balance the Hello World Service.
+# Build a simple helloworld Golang WebServer in a Docker Container &amp; Deploy the Golang Hello World docker image  on Minikube. Load Balance the Hello World Service.
 
 Note these steps are for a MacOS computer
 
