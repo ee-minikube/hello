@@ -115,9 +115,11 @@ In terminal run:
 
 minikube dashboard
 
-which launches http://127.0.0.1:65041/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/overview?namespace=default in a browser leave the terminal opened and open another one for use later.
+which launches something like  http://127.0.0.1:65041/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/overview?namespace=default in a browser leave the terminal opened and open another one for use later.
 
 From the browser window that was opened click on the + in the top right.
+
+
 
 This will open a new resource window  - choose the create from form tab
 App Name helloworld
@@ -213,6 +215,13 @@ status:
       message: ReplicaSet "helloworld-c77d9899b" has successfully progressed.
 ```
 
+You then need to deploy the ingress controller which is done by choosing the correct namespace ie helloworld on the left band menu then click on ingresses followed by the + top right
+
+kubectl config set-context minikube --namespace helloworld
+
+kubectl apply -f ingress.yml
+
+Where ingress.yml = 
 
 
 ```yaml
@@ -233,6 +242,33 @@ spec:
           serviceName: helloworld
           servicePort: 8080
 ```
+
+Finally edit hosts adding the endpoint displayed on the helloworld namespace ingress page
+
+sudo vi /etc/hosts
+
+Which should look something like this after editing
+```bash
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1       localhost
+255.255.255.255 broadcast
+192.168.64.3    hello-world.info
+::1             localhost
+# Added by Docker Desktop
+# To allow the same kube context to work on the host and the container:
+127.0.0.1 kubernetes.docker.internal
+# End of section
+```
+Where hello-world.info is the url
+
+Hitting refresh will cycle through the 3 servers
+
+
 
 
 
