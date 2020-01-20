@@ -37,11 +37,11 @@ brew install git
 git clone https://github.com/ee-minikube/hello.git
 cd hello
 ```
-View the repo with your favourite editor
+
 
 ### Golang 
 
-See src/main this
+View the repo with your favourite editor src/main:
 
 ```bash
 package main
@@ -83,6 +83,8 @@ func main() {
 
 ### Dockerfile
 
+View the repo with your favourite editor Dockerfile:
+
 ```bash
 FROM golang:1.13.6-stretch as builder
 # install dep
@@ -109,7 +111,7 @@ WORKDIR /root
 COPY --from=builder /go/src/app/main .
 ```
 
-## Step: Build the Golang helloworld app in debian stretch docker and deploy to latest alpine - with a google gcr tag push  latest to gcr.
+## Steps: Build the Golang helloworld app in debian stretch docker and deploy to latest alpine - with a google gcr tag push  latest to gcr.
 
 ### Open a terminal in Mac and run the following from the hello directory:
 
@@ -119,7 +121,7 @@ docker push eu.gcr.io/guestbook-171610/helloworld:latest
 docker images |grep helloworld
 ```
 
-## Deploy helloworld to minikube
+## Steps: Deploy helloworld to minikube
 
 In terminal run:
 
@@ -234,7 +236,7 @@ status:
 
 ## Deploying ingress controller
 
-You then need to deploy the ingress controller which is done by choosing the correct namespace ie helloworld on the left band menu then click on ingresses followed by the + top right
+You then need to deploy the ingress controller which will give you an nginx instance  which is done by choosing the correct namespace ie helloworld on the left band menu then click on ingresses followed by the + top right
 
 ```bash
 kubectl config set-context minikube --namespace helloworld
@@ -286,7 +288,7 @@ Which should look something like this after editing
 ```
 Where hello-world.info is the url
 
-In the browser visit: http://hello-world.info/ 
+## In the browser visit: http://hello-world.info/ 
 
 Hitting refresh will cycle through the 3 servers
 
