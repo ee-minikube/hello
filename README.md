@@ -35,7 +35,9 @@ brew install git
 
 ```bash
 git clone https://github.com/ee-minikube/hello.git
+cd hello
 ```
+View the repo with your favourite editor
 
 ### Golang 
 
@@ -109,7 +111,7 @@ COPY --from=builder /go/src/app/main .
 
 ## Step: Build the Golang helloworld app in debian stretch docker and deploy to latest alpine - with a google gcr tag push  latest to gcr.
 
-### Open a terminal in Mac and run the following:
+### Open a terminal in Mac and run the following from the hello directory:
 
 ```bash
 docker build  -t eu.gcr.io/guestbook-171610/helloworld .
@@ -124,6 +126,7 @@ In terminal run:
 ```bash
 minikube dashboard
 ````
+
 which launches something like  http://127.0.0.1:65041/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/overview?namespace=default in a browser leave the terminal opened and open another one for use later.
 
 
@@ -133,10 +136,15 @@ which launches something like  http://127.0.0.1:65041/api/v1/namespaces/kubernet
 
 This will open a new resource window  - choose the create from form tab
 App Name helloworld
+
 Container Image: eu.gcr.io/guestbook-171610/helloworld:latest
+
 Number of Pods: 3
+
 Service: External
+
 Port: 8080 External Port: 8080 Protocol: TCP
+
 click on show Advanced Options
 
 Namespace: Choose create a new namespace.
@@ -147,7 +155,6 @@ Description: helloworld app
 Then click on Deploy
 
 This will deploy and then open the helloworld namespace overview display which should look as this:
-
 
 All should be green
 
