@@ -2,35 +2,35 @@
 
 Note these steps are for a MacOS computer
 
-Steps: Build the Golang application and deploy to a docker container
+## Steps: Build the Golang application and deploy to a docker container
 
-Get a docker hub account if you dont have one - you'll need it to install docker.
+### Get a docker hub account if you dont have one - you'll need it to install docker.
 
 See here: https://hub.docker.com/signup
 
-Install Docker on Mac
+### Install Docker on Mac
 
 https://docs.docker.com/docker-for-mac/install/
 
-Make sure you have brew installed on your Mac
+### Make sure you have brew installed on your Mac
 
-Install Minikube using brew and add extensions
+### Install Minikube using brew and add extensions
 
 brew install minikube
 
 minikube start
 minikube addons enable ingress
 
-Install git using brew
+### Install git using brew
 
 brew install git
 
-Clone this repo
+### Clone this repo
 
 git clone 
 
- 
-Heres the golang:
+
+## Golang 
 
 ```bash
 package main
@@ -69,9 +69,8 @@ func main() {
 
 }
 ```
-Here's the dockerfile:
 
-Dockerfile
+## Dockerfile
 
 ```bash
 FROM golang:1.13.6-stretch as builder
@@ -99,9 +98,9 @@ WORKDIR /root
 COPY --from=builder /go/src/app/main .
 ```
 
-Build the Golang helloworld app in debian stretch docker and deploy to latest alpine - with a google gcr tag push  latest to gcr.
+## Build the Golang helloworld app in debian stretch docker and deploy to latest alpine - with a google gcr tag push  latest to gcr.
 
-Open a terminal in Mac and run the following:
+### Open a terminal in Mac and run the following:
 
 ```bash
 docker build  -t eu.gcr.io/guestbook-171610/helloworld .
@@ -109,17 +108,19 @@ docker push eu.gcr.io/guestbook-171610/helloworld:latest
 docker images |grep helloworld
 ```
 
-Deploy helloworld to minikube
+## Deploy helloworld to minikube
 
 In terminal run:
 
+```bash
 minikube dashboard
-
+````
 which launches something like  http://127.0.0.1:65041/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/overview?namespace=default in a browser leave the terminal opened and open another one for use later.
 
-From the browser window that was opened click on the + in the top right.
 
+## Deploying the docker image to kube
 
+### From the browser window that was opened click on the + in the top right.
 
 This will open a new resource window  - choose the create from form tab
 App Name helloworld
@@ -215,13 +216,16 @@ status:
       message: ReplicaSet "helloworld-c77d9899b" has successfully progressed.
 ```
 
+## Deploying ingress controller
+
 You then need to deploy the ingress controller which is done by choosing the correct namespace ie helloworld on the left band menu then click on ingresses followed by the + top right
 
+```bash
 kubectl config set-context minikube --namespace helloworld
-
 kubectl apply -f ingress.yml
+```
 
-Where ingress.yml = 
+Where ingress.yml is in the attached repo
 
 
 ```yaml
@@ -243,7 +247,7 @@ spec:
           servicePort: 8080
 ```
 
-Finally edit hosts adding the endpoint displayed on the helloworld namespace ingress page
+## Finally edit hosts adding the endpoint displayed on the helloworld namespace ingress page
 
 sudo vi /etc/hosts
 
@@ -265,6 +269,8 @@ Which should look something like this after editing
 # End of section
 ```
 Where hello-world.info is the url
+
+In the browser visit: http://hello-world.info/ 
 
 Hitting refresh will cycle through the 3 servers
 
