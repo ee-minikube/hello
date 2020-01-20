@@ -136,10 +136,11 @@ which launches something like  http://127.0.0.1:65041/api/v1/namespaces/kubernet
 
 ### From the browser window that was opened click on the + in the top right.
 
-This will open a new resource window  - choose the create from form tab
-App Name helloworld
+This will open a new resource window  - choose the create from form tab:
 
 ![Create](/images/create.png)
+
+App Name: helloworld
 
 Container Image: eu.gcr.io/guestbook-171610/helloworld:latest
 
@@ -159,6 +160,8 @@ Description: helloworld app
 Then click on Deploy
 
 This will deploy and then open the helloworld namespace overview display which should look as this:
+
+![Overview](/images/overview.png)
 
 All should be green
 
@@ -240,6 +243,8 @@ status:
 
 You then need to deploy the ingress controller which will give you an nginx instance  which is done by choosing the correct namespace ie helloworld on the left band menu then click on ingresses followed by the + top right
 
+
+
 ```bash
 kubectl config set-context minikube --namespace helloworld
 kubectl apply -f ingress.yml
@@ -267,6 +272,8 @@ spec:
           servicePort: 8080
 ```
 
+![Ingres](/images/ingres.png)
+
 ## Finally edit hosts adding the endpoint displayed on the helloworld namespace ingress page
 
 sudo vi /etc/hosts
@@ -293,6 +300,8 @@ Where hello-world.info is the url
 ## In the browser visit: http://hello-world.info/ 
 
 Hitting refresh will cycle through the 3 servers
+
+![Web](/images/Web.png)
 
 
 
