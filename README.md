@@ -127,6 +127,9 @@ Service: External
 Port: 8080 External Port: 8080 Protocol: TCP
 click on show Advanced Options
 
+Namespace: Choose create a new namespace.
+Will launch a dialog give the namespace name helloworld and hit enter
+
 Description: helloworld app
 
 Then click on Deploy
@@ -134,9 +137,102 @@ Then click on Deploy
 This will deploy and then open the helloworld namespace overview display which should look as this:
 
 
+All should be green
 
-Namespace: Choose create a new namespace.
-Will launch a dialog give the namespace name helloworld
+This creates a deployment json which looks like this:
+```json
 
-minikube dashboard
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: helloworld
+  namespace: helloworld
+  selfLink: /apis/apps/v1/namespaces/helloworld/deployments/helloworld
+  uid: 115cd0b0-bdfd-4a51-a56e-7ff331e31ebb
+  resourceVersion: '83821'
+  generation: 1
+  creationTimestamp: '2020-01-20T14:37:15Z'
+  labels:
+    k8s-app: helloworld
+  annotations:
+    deployment.kubernetes.io/revision: '1'
+    description: helloworld app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      k8s-app: helloworld
+  template:
+    metadata:
+      name: helloworld
+      creationTimestamp: null
+      labels:
+        k8s-app: helloworld
+      annotations:
+        description: helloworld app
+    spec:
+      containers:
+        - name: helloworld
+          image: 'eu.gcr.io/guestbook-171610/helloworld:latest'
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+          securityContext:
+            privileged: false
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+status:
+  observedGeneration: 1
+  replicas: 3
+  updatedReplicas: 3
+  readyReplicas: 3
+  availableReplicas: 3
+  conditions:
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2020-01-20T14:37:28Z'
+      lastTransitionTime: '2020-01-20T14:37:28Z'
+      reason: MinimumReplicasAvailable
+      message: Deployment has minimum availability.
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2020-01-20T14:37:28Z'
+      lastTransitionTime: '2020-01-20T14:37:15Z'
+      reason: NewReplicaSetAvailable
+      message: ReplicaSet "helloworld-c77d9899b" has successfully progressed.
+```
+
+
+
+```yaml
+apiVersion: networking.k8s.io/v1beta1 # for versions before 1.14 use extensions/v1beta1
+kind: Ingress
+metadata:
+  name: helloworld-ingress
+  namespace: helloworld
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+  - host: hello-world.info
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: helloworld
+          servicePort: 8080
+```
+
+
 
