@@ -14,23 +14,29 @@ https://docs.docker.com/docker-for-mac/install/
 
 ### Make sure you have brew installed on your Mac
 
+https://brew.sh
+
 ### Install Minikube using brew and add extensions
 
+Open a terminal
+```bash
 brew install minikube
-
 minikube start
 minikube addons enable ingress
-
+```
 ### Install git using brew
 
+```bash
 brew install git
-
+```
 ### Clone this repo
 
-git clone 
+git clone https://github.com/ee-minikube/hello.git
 
 
-## Golang 
+### Golang 
+
+See src/main
 
 ```bash
 package main
@@ -70,7 +76,7 @@ func main() {
 }
 ```
 
-## Dockerfile
+### Dockerfile
 
 ```bash
 FROM golang:1.13.6-stretch as builder
@@ -98,7 +104,7 @@ WORKDIR /root
 COPY --from=builder /go/src/app/main .
 ```
 
-## Build the Golang helloworld app in debian stretch docker and deploy to latest alpine - with a google gcr tag push  latest to gcr.
+## Step: Build the Golang helloworld app in debian stretch docker and deploy to latest alpine - with a google gcr tag push  latest to gcr.
 
 ### Open a terminal in Mac and run the following:
 
