@@ -41,7 +41,7 @@ cd hello
 
 ### Golang 
 
-View the repo with your favourite editor src/main:
+View the main.go file with your favourite editor its here in the repo src/main. It basically uses resposeWriter as the Web Server serving Hello World and the hostname of the container:
 
 ```bash
 package main
@@ -83,7 +83,7 @@ func main() {
 
 ### Dockerfile
 
-View the repo with your favourite editor Dockerfile:
+View the Dockerfile with your favourite editor Dockerfile. It builds the Golang helloworld app in debian stretch docker container and deploys to latest alpine - with a google gcr tag push latest to gcr. gcr has scanning on it and will show any vuneralbilities. Note you can also deploy to your own  docker hub registry.
 
 ```bash
 FROM golang:1.13.6-stretch as builder
@@ -114,6 +114,12 @@ COPY --from=builder /go/src/app/main .
 ## Steps: Build the Golang helloworld app in debian stretch docker and deploy to latest alpine - with a google gcr tag push  latest to gcr.
 
 ### Open a terminal in Mac and run the following from the hello directory:
+
+As above gcr has scanning on it and will show any vuneralbilities. Note you can also deploy to your own  docker hub registry. In both cases modify the eu.gcr.io/guestbook-171610/ to corespond to your registry. I've left the gcr  below open  for the time being to enable testing of this deployment
+
+Here's a good blog on using GCP GCR https://www.techbeatly.com/2019/10/adding-container-images-to-google-container-registry-gcr.html/.
+
+Docker hub is detailed here.
 
 ```bash
 docker build  -t eu.gcr.io/guestbook-171610/helloworld .
@@ -302,8 +308,3 @@ Where hello-world.info is the url
 Hitting refresh will cycle through the 3 servers
 
 ![Web](/images/Web.png)
-
-
-
-
-
