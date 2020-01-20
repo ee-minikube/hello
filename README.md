@@ -21,21 +21,27 @@ https://brew.sh
 Open a terminal on the Mac.
 
 ```bash
-brew install minikube
-minikube start
-minikube addons enable ingress
+$ brew install minikube
+$ minikube start
+$ minikube addons enable ingress
 ```
 ### Install git using brew
 
 ```bash
-brew install git
+$ brew install git
 ```
 
 ### Clone this repo
 
 ```bash
-git clone https://github.com/ee-minikube/hello.git
-cd hello
+$ git clone https://github.com/ee-minikube/hello.git
+$ cd hello
+```
+
+### Install local docker registry
+
+```bash
+$ docker run -d -p 5000:5000 --restart=always --name registry registry:2
 ```
 
 
@@ -83,7 +89,7 @@ func main() {
 
 ### Dockerfile
 
-View the Dockerfile with your favourite editor Dockerfile. It builds the Golang helloworld app in debian stretch docker container and deploys to latest alpine - with a google gcr tag push latest to gcr. gcr has scanning on it and will show any vuneralbilities. Note you can also deploy to your own  docker hub registry.
+View the Dockerfile with your favourite editor Dockerfile. It builds the Golang helloworld app in debian stretch docker container and deploys to latest alpine - then pushes to local registry running on port 5000.
 
 ```bash
 FROM golang:1.13.6-stretch as builder
@@ -115,16 +121,16 @@ COPY --from=builder /go/src/app/main .
 
 ### Open a terminal in Mac and run the following from the hello directory:
 
-As above gcr has scanning on it and will show any vuneralbilities. Note you can also deploy to your own  docker hub registry. In both cases modify the eu.gcr.io/guestbook-171610/ to corespond to your registry. I've left the gcr  below open  for the time being to enable testing of this deployment
+As above gcr has scanning on it and will show any vuneralbilities. Note you can also deploy to your own  docker hub registry. In both cases modify the localhost:5000 to corespond to your registry. I've left the gcr  below open  for the time being to enable testing of this deployment
 
 Here's a good blog on using GCP GCR https://www.techbeatly.com/2019/10/adding-container-images-to-google-container-registry-gcr.html/.
 
 Docker hub is detailed here.
 
 ```bash
-docker build  -t eu.gcr.io/guestbook-171610/helloworld .
-docker push eu.gcr.io/guestbook-171610/helloworld:latest
-docker images |grep helloworld
+$ docker build  -t localhost:5000/helloworld .
+$ docker push      localhost:5000/helloworld:latest
+$ docker images |grep helloworld
 ```
 
 ## Steps: Deploy helloworld to minikube
@@ -132,7 +138,7 @@ docker images |grep helloworld
 In terminal run:
 
 ```bash
-minikube dashboard
+$  minikube dashboard
 ````
 
 which launches something like  http://127.0.0.1:65041/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/overview?namespace=default in a browser leave the terminal opened and open another one for use later.
@@ -148,7 +154,7 @@ This will open a new resource window  - choose the create from form tab:
 
 App Name: helloworld
 
-Container Image: eu.gcr.io/guestbook-171610/helloworld:latest
+Container Image: localhost:5000/helloworld:latest
 
 Number of Pods: 3
 
@@ -205,7 +211,7 @@ spec:
     spec:
       containers:
         - name: helloworld
-          image: 'eu.gcr.io/guestbook-171610/helloworld:latest'
+          image: 'localhost:5000/helloworld:latest'
           resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
@@ -252,8 +258,8 @@ You then need to deploy the ingress controller which will give you an nginx inst
 
 
 ```bash
-kubectl config set-context minikube --namespace helloworld
-kubectl apply -f ingress.yml
+$ kubectl config set-context minikube --namespace helloworld
+$ kubectl apply -f ingress.yml
 ```
 
 Where ingress.yml is in the attached repo
@@ -282,7 +288,9 @@ spec:
 
 ## Finally edit hosts adding the endpoint displayed on the helloworld namespace ingress page
 
-sudo vi /etc/hosts
+```bash
+$ sudo vi /etc/hosts
+```
 
 Which should look something like this after editing
 ```bash
