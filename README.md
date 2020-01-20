@@ -121,15 +121,27 @@ COPY --from=builder /go/src/app/main .
 
 ### Open a terminal in Mac and run the following from the hello directory:
 
-As above gcr has scanning on it and will show any vuneralbilities.  
+As above gcr has scanning on it and will show any vuneralbilities. 
+
+Choose one or the other I've used Google gcr but Docker Hub is also shown below
+
+### Either Push to Google gcr
 
 Here's a good blog on using GCP GCR https://www.techbeatly.com/2019/10/adding-container-images-to-google-container-registry-gcr.html/.
-
-Docker hub is detailed here.
 
 ```bash
 $ docker build  -t eu.gcr.io/guestbook-171610/helloworld:latest .
 $ docker push      eu.gcr.io/guestbook-171610/helloworld:latest
+$ docker images |grep helloworld
+```
+
+### OR Push to Docker Repo
+
+Set up do
+
+```bash
+$ docker build  -t bjrooney/helloworld .
+$ docker push      bjrooney/helloworld
 $ docker images |grep helloworld
 ```
 
@@ -154,7 +166,7 @@ This will open a new resource window  - choose the create from form tab:
 
 App Name: helloworld
 
-Container Image: eu.gcr.io/guestbook-171610/helloworld:latest
+Container Image: eu.gcr.io/guestbook-171610/helloworld:latest (Note if you use docker hub eg: docker.io/bjrooney/helloworld)
 
 Number of Pods: 3
 
